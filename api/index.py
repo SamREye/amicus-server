@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_file
 import json, functools
 import plotly as pl
 import plotly.express as px
@@ -10,6 +10,11 @@ load_dotenv()
 import api.lib.data as db
 
 app = Flask(__name__)
+
+# Route for favicon
+@app.route('/favicon.ico')
+def favicon():
+    return send_file('favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route('/')
 def home():
@@ -29,7 +34,10 @@ def show_report(session_id):
     df = pd.DataFrame(dict(r=metric_values, theta=metric_labels))
     fig = px.line_polar(df, r='r', theta='theta', line_close=True)
     fig.update_traces(fill='toself')
-    return render_template('report.html', data=data, graph=json.dumps(fig, cls=pl.utils.PlotlyJSONEncoder))
+    # fig.show(config=dict(displayModeBar=False))
+    score = functools.reduce(lambda a, b: a+b, metric_values) / len(metric_values)
+    score = round(score, 2)
+    return render_template('report.html', data=data, graph=json.dumps(fig, cls=pl.utils.PlotlyJSONEncoder), score=score)
 
 @app.route('/pr/report/get/<session_id>', methods=["GET"])
 def get_report(session_id):

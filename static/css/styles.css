@@ -1,0 +1,83 @@
+body {
+    background-color: var(--background-color);
+}
+
+* {
+    box-sizing: border-box;
+    font-size: 1.12rem;
+}
+
+h1 {
+    color: var(--text-color);
+    margin: 15px;
+    font-size: 2rem;
+}
+
+#report-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.super-container {
+    border: none;
+    padding: 5px;
+    margin: 3px;
+    background-color: var(--secondary-color);
+    border-radius: 20px;
+}
+
+.text-container {
+    border-color: var(--border-color);
+    border-width: 1px;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 5px;
+    background-color: var(--primary-color);
+}
+
+.graphs {
+    display: flex;
+    flex-direction: column;
+}
+
+.score {
+    margin: 2px auto;
+}
+
+.header-info {
+    flex: 1;
+}
+
+#overview {
+    display: flex;
+    flex-direction: row;
+}
+
+.overview-section {
+    flex: 1;
+}
+
+.file-name {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: var(--text-color);
+}
+
+.file-info {
+    padding: 15px;
+    font-size: 1.8rem;
+}
+
+label {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: var(--text-color);
+}
+
+:root {
+    --primary-color: rgb(224 245 250);
+    --secondary-color: rgb(255 255 255);
+    --border-color: rgb(67, 67, 67);
+    --background-color: rgb(194, 168, 255);
+    --text-color: rgba(32, 32, 32, 0.458);
+}

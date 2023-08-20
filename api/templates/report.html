@@ -4,47 +4,72 @@
     <script type="module" src="https://md-block.verou.me/md-block.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <h1>Amicus Pull Request Report</h1>
-    <div>
-        <div>
+    <div id="report-header" class="super-container">
+        <div class="header-info text-container">
             <label for="repo_info">Repository:</label>
             <span id="repo_info"><a href="https://github.com/{{ data.repo_owner }}/{{ data.repo_name }}">{{ data.repo_owner }}/{{ data.repo_name }}</a></span>
         </div>
-        <div>
+        <div class="header-info text-container">
             <label for="pr_info">Pull Request:</label>
             <span id="repo_info"><a href="https://github.com/{{ data.repo_owner }}/{{ data.repo_name }}/pull/{{ data.pull_request_id }}">{{ data.pull_request_id }}</a></span>
         </div>
     </div>
-    <div>
-        <div>
+    <div id="overview" class="super-container">
+        <div class="overview-section text-container">
             <label for="exec_summ">Findings:</label>
             <span id="exec_summ"><md-block>{{ data.long_summary }}</md-block></span>
         </div>
-        <div class="chart" id="graph">
-            <script>
-                var graphs = {{ graph | safe }};
-                Plotly.plot('graph',graphs,{});
-            </script>
+        <div class="overview-section">
+            <div class="graphs">
+                <div class="chart" id="graph">
+                    <script>
+                        var graphs = {{ graph | safe }};
+                        Plotly.plot('graph',graphs,{});
+                    </script>
+                </div>
+                <div class="score">
+                    <p>
+                        <label for="score">Score:</label>
+                        <span id="score">{{ score }} out of 5.00</span>
+                    </p>
+                    <p>
+                        <label for="opinion">Finding:</label>
+                        <span id="opinion">
+                            {% if score < 2 %}
+                                Harmful
+                            {% else %}
+                                {% if score > 3 %}
+                                    Beneficial
+                                {% else %}
+                                    Neutral
+                                {% endif %}
+                            {% endif %}
+                        </span>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-    <div>
+    <div id="files" class="super-container">
         {% for file in data.files %}
         <div class="file_review">
-            <div>
+            <div class="file-info">
                 <label for="file_name">File:</label>
-                <span id="file_name">{{ file.filename }}</span>
+                <span id="file_name" class="file-name">{{ file.filename }}</span>
             </div>
-            <div>
+            <div class="file-info text-container">
                 <label for="file_summary">Summary:</label>
                 <span id="file_summary"><md-block>{{ file.code_summary }}</md-block></span>
             </div>
-            <div>
+            <div class="file-info text-container">
                 <label for="analysis_result">Findings:</label>
                 <span id="analysis_result"><md-block>{{ file.analysis_result }}</md-block></span>
             </div>
-            <div>
+            <div class="file-info text-container">
                 <label for="recommendations">Recommendations:</label>
                 <span id="recommendations"><md-block>{{ file.diff_json }}</md-block></span>
             </div>
