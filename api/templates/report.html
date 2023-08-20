@@ -18,6 +18,19 @@
             <span id="repo_info"><a href="https://github.com/{{ data.repo_owner }}/{{ data.repo_name }}/pull/{{ data.pull_request_id }}">{{ data.pull_request_id }}</a></span>
         </div>
     </div>
+    <div id="about-amicus" class="super-container">
+        <div class="text-container">
+            <md-block>
+                ## About Amicus
+
+                Amicus is a tool that analyzes pull requests and provides feedback on the quality of the code. It is designed to be used by developers to improve the quality of their code and to help them make informed decisions about whether to merge a pull request.
+                
+                Amicus analyzes the code in a pull request and provides a score and a summary of the findings. The score is a number between 0 and 5, where 5 is the best possible score. The summary provides a high-level overview of the findings and recommendations for improving the code.
+                
+                Amicus also provides a detailed analysis of each file in the pull request. For each file, Amicus provides a summary of the code, a summary of the findings, and recommendations for improving the code.
+            </md-block>
+        </div>
+    </div>
     <div id="overview" class="super-container">
         <div class="overview-section text-container">
             <label for="exec_summ">Findings:</label>
@@ -37,7 +50,16 @@
                     <span id="score">{{ "%.2f"|format(score) }}</span>
                 </div>
             </div>
-            <!-- <div class="legend"></div> -->
+            <div class="text-container">
+                <label for="legend">Legend:</label>
+                <span id="legend"><md-block>
+                    Metrics are calibrated as follows:
+                     * 4.0 - 5.0: Improves the codebase
+                     * 3.0 - 4.0: Reasonably good
+                     * 2.5 - 3.0: Good enough, but could be improved
+                     * 0.0 - 2.5: Contains defects or is unreasonably risky
+                </md-block></span>
+            </div>
         </div>
     </div>
     <div id="files" class="super-container">

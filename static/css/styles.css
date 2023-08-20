@@ -80,7 +80,11 @@ label {
     color: var(--text-color);
 }
 
-.legend {
+/* .legend {
+
+} */
+
+/* .legend {
     background-image: linear-gradient(
         90deg,
         hsl(0deg 100% 50%) 0%,
@@ -91,7 +95,7 @@ label {
     height: 50px;
     margin: 0px 40px;
 }
-
+ */
 :root {
     --primary-color: rgb(212 247 255);
     --secondary-color: rgb(255 255 255);
