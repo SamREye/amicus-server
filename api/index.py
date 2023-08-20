@@ -77,6 +77,7 @@ def get_document_chunks(session_id):
 
 @app.route('/pr/report/add', methods=["POST"])
 def post_report():
+    print("POST /pr/report/add")
     # Get report from payload
     reports = request.json.get("reviews")
     print(reports)
