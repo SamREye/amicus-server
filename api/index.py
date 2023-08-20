@@ -79,17 +79,11 @@ def get_document_chunks(session_id):
 def post_report():
     print("POST /pr/report/add")
     # Get report from payload
-    reports = request.json.get("reviews")
-    print(reports)
-    # Add pull request files to database
-    for repo in reports:
-        print(repo)
-        # Add report to database
-        for pr in repo["results"]:
-            print(pr)
-            db.add_pull_request(repo, pr)
-            for file in pr["data"]:
-                print(file)
-                result = db.add_pull_request_file(repo["session_id"], file)
-                print(result)
+    repo = {}
+    for field in ["session_id", "repo_name", "repo_owner", "latest_sha_commit"]:
+        repo[field] = request.json.get(field)
+    for pr in request.json.get("results"):
+        db.add_pull_request(repo, pr)
+        for file in pr["data"]:
+            result = db.add_pull_request_file(repo["session_id"], file)
     return jsonify({"status": "success"})

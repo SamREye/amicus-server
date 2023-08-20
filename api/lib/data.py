@@ -80,7 +80,7 @@ def add_pull_request(repo, pull_request):
         "repo_name": repo["repo_name"],
         "repo_owner": repo["repo_owner"],
         "pull_request_id": pull_request["pull_request_id"],
-        "latest_sha_commit": pull_request["latest_sha_commit"],
+        "latest_sha_commit": repo["latest_sha_commit"],
         "executive_summary": pull_request["executive_summary"],
         "long_summary": pull_request["long_summary"],
     })
