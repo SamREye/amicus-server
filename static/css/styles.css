@@ -30,7 +30,8 @@ h1 {
     border-color: var(--border-color);
     border-width: 1px;
     border-radius: 20px;
-    padding: 10px;
+    padding: 20px;
+    text-align: justify;
     margin: 5px;
     background-color: var(--primary-color);
 }
@@ -75,9 +76,9 @@ label {
 }
 
 :root {
-    --primary-color: rgb(224 245 250);
+    --primary-color: rgb(212 247 255);
     --secondary-color: rgb(255 255 255);
     --border-color: rgb(67, 67, 67);
-    --background-color: rgb(194, 168, 255);
-    --text-color: rgba(32, 32, 32, 0.458);
+    --background-color: rgb(184 170 219);
+    --text-color: rgb(0 0 0);
 }
