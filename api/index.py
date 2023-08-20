@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, send_file
 import json, functools
+from flask_cors import CORS
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -7,6 +8,7 @@ load_dotenv()
 import api.lib.data as db
 
 app = Flask(__name__)
+CORS(app)
 
 # Route for favicon
 @app.route('/favicon.ico')
