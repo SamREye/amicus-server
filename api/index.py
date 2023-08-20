@@ -25,10 +25,12 @@ def get_report(session_id):
 @app.route('/pr/report/add', methods=["POST"])
 def post_report():
     # Get report from payload
-    report = request.json.get("review")
-    # Add report to database
-    result = db.add_pull_request(report)
+    reports = request.json.get("reviews")
     # Add pull request files to database
-    for file in report["results"]:
-        result = db.add_pull_request_file(report["session_id"], file)
+    for repo in reports:
+        # Add report to database
+        for pr in repo["results"]:
+            db.add_pull_request(repo, pr)
+            for file in pr["data"]:
+                result = db.add_pull_request_file(repo["session_id"], file)
     return jsonify({"status": "success"})

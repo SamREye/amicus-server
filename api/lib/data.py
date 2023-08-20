@@ -73,15 +73,16 @@ def get_pull_request_files(session_id):
     response = requests.request("POST", url, headers=headers, data=payload).json()
     return response['documents']
 
-def add_pull_request(pull_request):
+def add_pull_request(repo, pull_request):
     url = f'{baseurl}/insertOne'
     payload = prep_insert("amicus_pull_requests", {
-        "session_id": pull_request["session_id"],
-        "repo_name": pull_request["repo_name"],
-        "repo_owner": pull_request["repo_owner"],
+        "session_id": repo["session_id"],
+        "repo_name": repo["repo_name"],
+        "repo_owner": repo["repo_owner"],
         "pull_request_id": pull_request["pull_request_id"],
         "latest_sha_commit": pull_request["latest_sha_commit"],
         "executive_summary": pull_request["executive_summary"],
+        "long_summary": pull_request["long_summary"],
     })
     response = requests.request("POST", url, headers=headers, data=payload).json()
     return handle_insertone_response(response)
