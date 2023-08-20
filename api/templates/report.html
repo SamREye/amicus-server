@@ -1,13 +1,13 @@
 <html>
 <head>
-    <title>Amicus Pull Request Report</title>
+    <title>Amicus Brief</title>
     <script type="module" src="https://md-block.verou.me/md-block.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body>
-    <h1>Amicus Pull Request Report</h1>
+<body class="dark-mode">
+    <h1>Amicus Brief</h1>
     <div id="report-header" class="super-container">
         <div class="header-info text-container">
             <label for="repo_info">Repository:</label>
@@ -21,13 +21,13 @@
     <div id="about-amicus" class="super-container">
         <div class="text-container">
             <md-block>
-                ## About Amicus
+                ## About Amicus Briefs
 
                 Amicus is a tool that analyzes pull requests and provides feedback on the quality of the code. It is designed to be used by developers to improve the quality of their code and to help them make informed decisions about whether to merge a pull request.
                 
-                Amicus analyzes the code in a pull request and provides a score and a summary of the findings. The score is a number between 0 and 5, where 5 is the best possible score. The summary provides a high-level overview of the findings and recommendations for improving the code.
-                
-                Amicus also provides a detailed analysis of each file in the pull request. For each file, Amicus provides a summary of the code, a summary of the findings, and recommendations for improving the code.
+                Amicus Briefs provides both an overview of the pull request and a detailed analysis of each file in the pull request: summary, findings and recommendations.
+
+                You can find out more about Amicus [here](https://github.com/SamREye/amicus)
             </md-block>
         </div>
     </div>
