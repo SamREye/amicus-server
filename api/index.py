@@ -40,6 +40,39 @@ def get_report(session_id):
     data["results"] = db.get_pull_request_files(session_id)
     return jsonify(data)
 
+@app.route('/pr/report/comment/<session_id>', methods=["GET"])
+def get_comment(session_id):
+    data = db.get_pull_request(session_id)
+    data["results"] = db.get_pull_request_files(session_id)
+    comment = data["executive_summary"]
+    comment += "\n\nCheck out the [Amicus Brief](https://amicus.semantic-labs.com/pr/report/show/" + session_id + ")."
+    return jsonify({"comment": comment})
+
+@app.route('/pr/report/markdown/<session_id>', methods=["GET"])
+def get_document_chunks(session_id):
+    document = "# Amicus Brief\n\n"
+    data = db.get_pull_request(session_id)
+    for field in ["repo_name", "repo_owner", "pull_request_id", "latest_sha_commit", "executive_summary", "long_summary"]:
+        if field in data:
+            document += "## " + field.replace("_", " ") + "\n\n"
+            document += str(data[field]) + "\n\n"
+    data["results"] = db.get_pull_request_files(session_id)
+    document += "# Files\n\n"
+    for file in data["results"]:
+        document += "## " + file["filename"] + "\n\n"
+        for field in ["code_summary", "diff_json", "analysis_result", "metrics"]:
+            if field in file:
+                if field == "metrics":
+                    document += "### Metrics\n\n"
+                    metrics = json.loads(file[field])
+                    for metric in metrics:
+                        document += "* " + metric + ": " + str(metrics[metric]) + "\n"
+                else:
+                    document += "### " + field.replace("_", " ") + "\n\n"
+                    document += file[field] + "\n\n"
+    print(document)
+    return jsonify({"document": document})
+
 @app.route('/pr/report/add', methods=["POST"])
 def post_report():
     # Get report from payload
