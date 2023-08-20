@@ -1,8 +1,5 @@
 from flask import Flask, request, jsonify, render_template, send_file
 import json, functools
-import plotly as pl
-import plotly.express as px
-import pandas as pd
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -25,19 +22,17 @@ def show_report(session_id):
     data = db.get_pull_request(session_id)
     data["files"] = db.get_pull_request_files(session_id)
     metrics = [json.loads(x["metrics"]) for x in data["files"]]
-    print(metrics)
     metric_labels = list(metrics[0].keys())
     metric_values = []
     for label in metric_labels:
-        metric_values.append(functools.reduce(lambda a, b: a+b, [x[label] for x in metrics]) / len(metrics) * 2.5 + 2.5)
-    print(metric_values)
-    df = pd.DataFrame(dict(r=metric_values, theta=metric_labels))
-    fig = px.line_polar(df, r='r', theta='theta', line_close=True)
-    fig.update_traces(fill='toself')
-    # fig.show(config=dict(displayModeBar=False))
+        value = functools.reduce(lambda a, b: a+b, [x[label] for x in metrics]) / len(metrics) * 2.5 + 2.5
+        value = round(value, 2)
+        metric_values.append(value)
     score = functools.reduce(lambda a, b: a+b, metric_values) / len(metric_values)
     score = round(score, 2)
-    return render_template('report.html', data=data, graph=json.dumps(fig, cls=pl.utils.PlotlyJSONEncoder), score=score)
+    metric_labels = [x[0].upper() + x[1:] for x in metric_labels]
+    consolidated_metrics = dict(zip(metric_labels, metric_values))
+    return render_template('report.html', data=data, metrics=consolidated_metrics, score=score)
 
 @app.route('/pr/report/get/<session_id>', methods=["GET"])
 def get_report(session_id):

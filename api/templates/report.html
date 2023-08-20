@@ -24,34 +24,20 @@
             <span id="exec_summ"><md-block>{{ data.long_summary }}</md-block></span>
         </div>
         <div class="overview-section">
-            <div class="graphs">
-                <div class="chart" id="graph">
-                    <script>
-                        var graphs = {{ graph | safe }};
-                        Plotly.plot('graph',graphs,{});
-                    </script>
+            <div class="metrics">
+                {% for key, value in metrics.items() %}
+                <div class="metric">
+                    <label for="metric_{{ key }}">{{ key }}:</label>
+                    <span id="metric_{{ key }}">{{ "%.2f"|format(value) }}</span>
                 </div>
-                <div class="score">
-                    <p>
-                        <label for="score">Score:</label>
-                        <span id="score">{{ score }} out of 5.00</span>
-                    </p>
-                    <p>
-                        <label for="opinion">Finding:</label>
-                        <span id="opinion">
-                            {% if score < 2 %}
-                                Harmful
-                            {% else %}
-                                {% if score > 3 %}
-                                    Beneficial
-                                {% else %}
-                                    Neutral
-                                {% endif %}
-                            {% endif %}
-                        </span>
-                    </p>
+                {% endfor %}
+                <br>
+                <div class="metric">
+                    <label for="score">Total:</label>
+                    <span id="score">{{ "%.2f"|format(score) }}</span>
                 </div>
             </div>
+            <!-- <div class="legend"></div> -->
         </div>
     </div>
     <div id="files" class="super-container">
