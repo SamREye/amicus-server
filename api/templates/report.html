@@ -1,0 +1,45 @@
+<html>
+<head>
+    <title>Amicus Pull Request Report</title>
+    <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+</head>
+<body>
+    <h1>Amicus Pull Request Report</h1>
+    <div>
+        <div>
+            <label for="repo_info">Repository:</label>
+            <span id="repo_info"><a href="https://github.com/{{ data.repo_owner }}/{{ data.repo_name }}">{{ data.repo_owner }}/{{ data.repo_name }}</a></span>
+        </div>
+        <div>
+            <label for="pr_info">Pull Request:</label>
+            <span id="repo_info"><a href="https://github.com/{{ data.repo_owner }}/{{ data.repo_name }}/pull/{{ data.pull_request_id }}">{{ data.pull_request_id }}</a></span>
+        </div>
+    </div>
+    <div>
+        <label for="exec_summ">Findings:</label>
+        <span id="exec_summ"><md-block>{{ data.long_summary }}</md-block></span>
+    </div>
+    <div>
+        {% for file in data.files %}
+        <div class="file_review">
+            <div>
+                <label for="file_name">File:</label>
+                <span id="file_name">{{ file.filename }}</span>
+            </div>
+            <div>
+                <label for="file_summary">Summary:</label>
+                <span id="file_summary"><md-block>{{ file.code_summary }}</md-block></span>
+            </div>
+            <div>
+                <label for="analysis_result">Findings:</label>
+                <span id="analysis_result"><md-block>{{ file.analysis_result }}</md-block></span>
+            </div>
+            <div>
+                <label for="recommendations">Recommendations:</label>
+                <span id="recommendations"><md-block>{{ file.diff_json }}</md-block></span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

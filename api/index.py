@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -13,8 +13,10 @@ def home():
 @app.route('/pr/report/show/<session_id>', methods=["GET"])
 def show_report(session_id):
     data = db.get_pull_request(session_id)
-    data["results"] = db.get_pull_request_files(session_id)
-    return 'Home Page'
+    data["files"] = db.get_pull_request_files(session_id)
+    file_list = [x["filename"] for x in data["files"]]
+    # print(data)
+    return render_template('report.html', data=data, file_list=file_list)
 
 @app.route('/pr/report/get/<session_id>', methods=["GET"])
 def get_report(session_id):
