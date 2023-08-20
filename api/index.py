@@ -1,4 +1,9 @@
 from flask import Flask, request, jsonify, render_template
+import json, functools
+import plotly as pl
+import plotly.express as px
+import pandas as pd
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -14,9 +19,17 @@ def home():
 def show_report(session_id):
     data = db.get_pull_request(session_id)
     data["files"] = db.get_pull_request_files(session_id)
-    file_list = [x["filename"] for x in data["files"]]
-    # print(data)
-    return render_template('report.html', data=data, file_list=file_list)
+    metrics = [json.loads(x["metrics"]) for x in data["files"]]
+    print(metrics)
+    metric_labels = list(metrics[0].keys())
+    metric_values = []
+    for label in metric_labels:
+        metric_values.append(functools.reduce(lambda a, b: a+b, [x[label] for x in metrics]) / len(metrics) * 2.5 + 2.5)
+    print(metric_values)
+    df = pd.DataFrame(dict(r=metric_values, theta=metric_labels))
+    fig = px.line_polar(df, r='r', theta='theta', line_close=True)
+    fig.update_traces(fill='toself')
+    return render_template('report.html', data=data, graph=json.dumps(fig, cls=pl.utils.PlotlyJSONEncoder))
 
 @app.route('/pr/report/get/<session_id>', methods=["GET"])
 def get_report(session_id):

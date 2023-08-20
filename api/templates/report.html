@@ -2,6 +2,8 @@
 <head>
     <title>Amicus Pull Request Report</title>
     <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 </head>
 <body>
     <h1>Amicus Pull Request Report</h1>
@@ -16,8 +18,16 @@
         </div>
     </div>
     <div>
-        <label for="exec_summ">Findings:</label>
-        <span id="exec_summ"><md-block>{{ data.long_summary }}</md-block></span>
+        <div>
+            <label for="exec_summ">Findings:</label>
+            <span id="exec_summ"><md-block>{{ data.long_summary }}</md-block></span>
+        </div>
+        <div class="chart" id="graph">
+            <script>
+                var graphs = {{ graph | safe }};
+                Plotly.plot('graph',graphs,{});
+            </script>
+        </div>
     </div>
     <div>
         {% for file in data.files %}
